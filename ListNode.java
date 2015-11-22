@@ -1,7 +1,7 @@
 package leetcode;
 
 public class ListNode {
-    int val;
-    ListNode next;
-    ListNode(int x) {val = x;}
+	ListNode next;
+	int val;
+	ListNode(int x) {val=x;};
 }

@@ -1,68 +1,46 @@
 package leetcode;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class PlusOne {
 	public static void main(String[] args) {
-		int[] digits = {9,8};
-		int[] res = new int[digits.length+1];
-		res = new PlusOne().plusOne2(digits);
-		
-		for (int a:res)
+		int[] digits = {123};
+		digits = new PlusOne().plusOne(digits);
+		for (int a:digits)
 			System.out.println(a);
 	}
 	
-	//My Solution
 	public int[] plusOne(int[] digits) {
-		if (digits==null || digits.length==0) return null;
-		int[] res1 = new int[digits.length];
-		int count=0;
-		for (int i=digits.length-1; i>=0; i--) {
-			if (i==digits.length-1) {
-				if ((digits[i]+1)==10) {
-					res1[i] = 0;
-					count=1;
-				}
-				else {
-					res1[i]=digits[i]+1;
-					continue;
-				}
-			} else {
-				if ((digits[i]+count)==10) {
-					count=1;
-					res1[i] = 0;
-				}
-				else {
-					res1[i] = digits[i]+count;
-					count = 0;
-				}
+		if (digits==null) return null;
+ 		int tmp = digits[0]+1;
+ 		int end = getNumber(tmp);
+ 		Integer[] res1 = new Integer[end];
+ 		int[] res2 = new int[end];
+ 		while (end!=0) {
+ 			res1[end-1] = tmp%10;
+ 			end--;
+ 			tmp/=10;
+ 		}
+ 		Comparator<Integer> cmp = new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o2-o1;
 			}
-			
+		};
+		Arrays.sort(res1,cmp);
+		for (int i=0; i<res1.length; i++) {
+			res2[i] = res1[i].intValue();
 		}
-		if (count==1) {
-			int[] res2 = new int[res1.length+1];
-			for (int i=0; i<res1.length; i++)
-				res2[i+1] = res1[i];
-			res2[0]=1;
-			return res2;
-		} else {
-			return res1;
+		return (res2);
+	}
+	private int getNumber(int n) {
+		int count = 0; 
+		while (n%10>0 || n/10!=0) {
+			count++;
+			n/=10;
 		}
+		return count;
 	}
-	//Simple Solution
-	public int[] plusOne2(int[] digits) {
-
-	    int n = digits.length;
-	    for(int i=n-1; i>=0; i--) {
-	        if(digits[i] < 9) {
-	            digits[i]++;
-	            return digits;
-	        }
-
-	        digits[i] = 0;
-	    }
-
-	    int[] newNumber = new int [n+1];
-	    newNumber[0] = 1;
-
-	    return newNumber;
-	}
- }
+}
